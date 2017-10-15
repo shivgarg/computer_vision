@@ -7,7 +7,7 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-N=10;
+N=1000;
 sigma = .1; %additive noise on good points
 outlierFraction=0; %percent of totally random outliers to add
 

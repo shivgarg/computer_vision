@@ -42,7 +42,7 @@ function [x, y, R] = RANSAC(D, maxIter, maxInlierError, goodFitThresh)
 %               YOUR CODE HERE: Fill in the above two variables.               %
 %                                                                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
+       [seedSet,nonSeedSet] = RandomlySplitData(D,seedSetSize); 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %
 %                                 END YOUR CODE                                %
@@ -58,7 +58,7 @@ function [x, y, R] = RANSAC(D, maxIter, maxInlierError, goodFitThresh)
 %               YOUR CODE HERE: Fill in the above 3 variables.                 %
 %                                                                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
+        [xix,yy,RR] = FitCircle(seedSet);
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %
 %                                 END YOUR CODE                                %
@@ -73,7 +73,7 @@ function [x, y, R] = RANSAC(D, maxIter, maxInlierError, goodFitThresh)
 %                  YOUR CODE HERE. Fill in the above variable.                 %
 %                                                                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
+        nonSeedErrors = ComputeErrors(xx,yy,RR,nonSeedSet);        
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %
 %                                 END YOUR CODE                                %
@@ -90,7 +90,7 @@ function [x, y, R] = RANSAC(D, maxIter, maxInlierError, goodFitThresh)
 %                  YOUR CODE HERE. Fill in the above variable.                 %
 %                                                                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
+        nonSeedIsInlier = nonSeedErrors < maxInlierError;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %
 %                                 END YOUR CODE                                %
@@ -109,6 +109,7 @@ function [x, y, R] = RANSAC(D, maxIter, maxInlierError, goodFitThresh)
             % inliers([1 0 1],:) would return an array containing the 
             % 1st and 3rd inlier.
             inliers = seedSet;
+            inliers = cat(1,inliers,nonSeedSet(nonSeedIsInlier,:));
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %
 %                  YOUR CODE HERE. Fill in the above variable.                 %
@@ -130,7 +131,7 @@ function [x, y, R] = RANSAC(D, maxIter, maxInlierError, goodFitThresh)
 %                 YOUR CODE HERE. Fill in the above 3 variables.               %
 %                                                                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            
+            [xx, yy, RR] = FitCircle(inliers);            
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %
 %                                 END YOUR CODE                                %
@@ -147,7 +148,7 @@ function [x, y, R] = RANSAC(D, maxIter, maxInlierError, goodFitThresh)
 %                  YOUR CODE HERE. Fill in the above variable.                 %
 %                                                                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-            
+            error = sum(ComputeErrors(xx,yy,RR,inliers));            
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %
 %                                 END YOUR CODE                                %
