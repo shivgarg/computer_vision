@@ -1,15 +1,15 @@
 % Read in the main image and the template image.
-photo = rgb2gray(imread('u2cuba.jpg'));
+photo = imread('u2cuba.jpg');
 template = rgb2gray(imread('trailer.png'));
 
 % Display the image and the template at the same magnification, to make 
 % clear that the template is an extremely close match for the relevant 
 % section of the image.
 figure('Name','Original photo');
-imshow(photo, [], 'InitialMagnification', 50);
+imshow(photo, []);
 
 figure('Name','template');
-imshow(template, [] , 'InitialMagnification', 50);
+imshow(template, []);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %
@@ -18,7 +18,7 @@ imshow(template, [] , 'InitialMagnification', 50);
 %                      (Your code should be very simple.)                      %
 %                                                                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-correlationImg = [];
+correlationImg = normxcorr2(template,photo);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %
@@ -29,7 +29,7 @@ correlationImg = [];
 % Displays correlationImg and draw a rectangle around the highest peak.
 figure('Name','Correlation, near-perfect template');
 hold on % Allows drawing on top of the displayed image
-imshow(correlationImg, [], 'InitialMagnification', 50);
+imshow(correlationImg, []);
 
 % Find the maximum of correlationImg.
 % The max function requires a vector, so we unroll the array with (:).
@@ -56,7 +56,7 @@ largerTemplate = rgb2gray(imread('trailerSlightlyBigger.png'));
 %             Repeat the process from (a) with the larger template.            %
 %                                                                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-mismatchedCorrelationImg = [];
+mismatchedCorrelationImg = normxcorr2(largerTemplate,photo);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %
@@ -67,7 +67,7 @@ mismatchedCorrelationImg = [];
 % Display mismatchedCorrelationImg.
 figure('Name', 'Correlation, larger-sized template');
 hold on;
-imshow(mismatchedCorrelationImg, [], 'InitialMagnification', 50);
+imshow(mismatchedCorrelationImg, []);
 
 % Repeat the same process as above: find the maximum of correlationImg and
 % draw a box around it.
