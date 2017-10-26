@@ -249,8 +249,10 @@ function [histogram, angles] = ComputeGradientHistogram(num_bins, gradient_magni
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     histogram = zeros(1, num_bins);
-    for i = 1:length(gradient_angles)
-        histogram(floor(gradient_angles(i)/angle_step)+1) += gradient_magnitudes(i);
+    for i = 1:size(gradient_angles,1)
+        for j = 1:size(gradient_angles,2)
+            histogram(floor(gradient_angles(i,j)/angle_step)+1) += gradient_magnitudes(i,j);
+        end
     end
     
 

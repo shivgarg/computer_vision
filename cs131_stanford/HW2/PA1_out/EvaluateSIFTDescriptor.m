@@ -12,7 +12,7 @@ img = imread('./data/yard1.jpg');
 
 %% Call your implementation of SIFTDescriptor.m
 descriptors = SIFTDescriptor(imp, feature(:,8:9), feature(:,3));
-descriptors(1,:)
+
 %% Load data and check solution (You should not change this part.)
 load('./checkpoint/SIFT_ref.mat');
 fprintf('%s\n', 'Your error with the reference solution...');
