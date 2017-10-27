@@ -14,9 +14,9 @@
 clc; close all; clc;
 
 %% Load a list of images (Change file name if you want to use other images)
-imgList = dir('./data/yosemite*.jpg');
+imgList = dir('./data/pine*.jpg');
 
-saveFileName = 'yosemite.jpg';
+saveFileName = 'pine.jpg';
 
 %% Add path
 addpath('KeypointDetect');

@@ -26,6 +26,12 @@ function match = SIFTSimpleMatcher(descriptor1, descriptor2, thresh)
     end
 
     match = [];
+    for i = 1:size(descriptor1,1)
+        [sorted, ind] = sort(sqrt(sum((descriptor2-descriptor1(i,:)).^2,2)));
+        if sorted(1) < thresh*sorted(2)
+            match=[match;[i ind(1)]];
+        end
+    end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %
 %                                YOUR CODE HERE:                               %

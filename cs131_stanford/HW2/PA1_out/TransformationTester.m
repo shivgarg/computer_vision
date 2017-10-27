@@ -1,6 +1,6 @@
 %% Clear all
 clc; close all; clc;
-
+addpath('KeypointDetect');
 %% Load image
 img1 = imread('./data/uttower1.jpg');
 img2 = imread('./data/uttower2.jpg');
