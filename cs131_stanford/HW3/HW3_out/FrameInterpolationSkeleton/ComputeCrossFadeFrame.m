@@ -27,7 +27,7 @@ function img = ComputeCrossFadeFrame(img0, img1, u0, v0, t)
 %                Compute interpolated image using cross-fading.                %
 %                                                                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+    img = (1-t)*img0+t*img1;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %
 %                                 END YOUR CODE                                %

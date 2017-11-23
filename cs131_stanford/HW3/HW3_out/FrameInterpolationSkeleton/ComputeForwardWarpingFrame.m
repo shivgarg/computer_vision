@@ -25,6 +25,7 @@ function img = ComputeForwardWarpingFrame(img0, img1, u0, v0, t)
     width = size(img0, 2);
     img = NaN(size(img0));
     
+    size(img)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %
 %                                YOUR CODE HERE:                               %
@@ -32,7 +33,22 @@ function img = ComputeForwardWarpingFrame(img0, img1, u0, v0, t)
 %               store the interpolated image in the img variable.              %
 %                                                                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    for i = 1:height
+        for j=1:width
+	        x = round(i+t*v0(i,j));
+            y = round(j+t*u0(i,j));
+			if (y <= 0) | (y > width)
+				continue;
+			endif
+			if (x <= 0) | (x > height)
+				continue;
+			endif
+		    img(x,y,1) = img0(i,j,1);
+            img(x,y,2) = img0(i,j,2);
+            img(x,y,3) = img0(i,j,3);
 
+        end
+    end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %
 %                                 END YOUR CODE                                %

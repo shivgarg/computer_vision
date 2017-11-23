@@ -36,7 +36,16 @@ function warped_img = ComputeFlowWarpFrame(img0, img1, u0, v0, t)
 %                 Store the result in the warped_img variable.                 %
 %                                                                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+	for i=1:height
+		for j=1:width
+			y=round(i-t*vt(i,j));
+			x=round(j-t*ut(i,j));
+			if x<=0 | x > width | y<=0 | y> height
+				continue;
+			endif
+			warped_img(i,j)=img0(y,x);
+		endfor
+	endfor
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %
 %                                 END YOUR CODE                                %
@@ -76,7 +85,8 @@ function [ut, vt] = WarpFlow(img0, img1, u0, v0, t)
 
     ut = zeros(size(u0));
     vt = zeros(size(v0));
-    
+	size(u0)
+	size(img0)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %
 %                                YOUR CODE HERE:                               %
@@ -84,6 +94,35 @@ function [ut, vt] = WarpFlow(img0, img1, u0, v0, t)
 %               using the procedure described in the problem set.              %
 %                                                                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    check = zeros(size(img0))+intmax;
+    for i=1:height
+        for j=1:width
+			y=i+t*v0(i,j);
+			x=j+t*u0(i,j);
+			x=[max(0,floor(x)) min(width,ceil(x))];
+			y=[max(0,floor(y)) min(height,ceil(y))];
+			if (x(1) > x(2)) | (y(1) > y(2))
+				continue;
+			endif
+			for l=linspace(x(1),x(2),1)
+				for k=linspace(y(1),y(2),1)
+					p=round(i+v0(i,j));
+					q=round(j+u0(i,j));
+					if (p<=0) | (p>height) | (q<=0) | (q>width)
+						continue;
+					endif
+					n=norm(double(reshape(img0(i,j,:)-img1(p,q,:),[1,3])));
+					if n < check(k,l)
+						ut(k,l)=u0(i,j);
+						vt(k,l)=v0(i,j);
+						check(k,l) = n;
+					endif
+
+				endfor
+			endfor
+        endfor
+    endfor
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %

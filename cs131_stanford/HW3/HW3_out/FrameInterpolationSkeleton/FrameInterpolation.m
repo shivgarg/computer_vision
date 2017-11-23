@@ -79,22 +79,22 @@ function FrameInterpolation(use_precomputed_optical_flow)
     % to an animated GIF, and saved as a tiled image of frames.
     
     % Uncomment these lines after completing Problem 2(a).
-    % crossfade_video = ComputeVideo(frame1, frame2, u0, v0, num_frames, @ComputeCrossFadeFrame);
-    % implay(crossfade_video, 5);
-    % SaveAnimatedGif(crossfade_video, 'crossfade.gif');
-    % SaveImageSequence(crossfade_video, 'crossfade.png');
+%     crossfade_video = ComputeVideo(frame1, frame2, u0, v0, num_frames, @ComputeCrossFadeFrame);
+ %    implay(crossfade_video, 5);
+  %   SaveAnimatedGif(crossfade_video, 'crossfade.gif');
+   %  SaveImageSequence(crossfade_video, 'crossfade.png');
 
     % Uncomment these lines after completing Problem 2(b).
-    % forwardwarped_video = ComputeVideo(frame1, frame2, u0, v0, num_frames, @ComputeForwardWarpingFrame);
+   %  forwardwarped_video = ComputeVideo(frame1, frame2, u0, v0, num_frames, @ComputeForwardWarpingFrame);
     % implay(forwardwarped_video);
-    % SaveAnimatedGif(forwardwarped_video, 'forwardwarped.gif');
-    % SaveImageSequence(forwardwarped_video, 'forwardwarped.png');
+     %SaveAnimatedGif(forwardwarped_video, 'forwardwarped.gif');
+%     SaveImageSequence(forwardwarped_video, 'forwardwarped.png');
 
     % Uncomment these lines after completing Problem 2(e).
-    % flowwarp_video = ComputeVideo(frame1, frame2, u0, v0, num_frames, @ComputeFlowWarpFrame);
-    % implay(flowwarp_video, 5);
-    % SaveAnimatedGif(flowwarp_video, 'flowwarped.gif');
-    % SaveImageSequence(flowwarp_video, 'flowwarped.png');
+     flowwarp_video = ComputeVideo(frame1, frame2, u0, v0, num_frames, @ComputeFlowWarpFrame);
+     implay(flowwarp_video, 5);
+     SaveAnimatedGif(flowwarp_video, 'flowwarped.gif');
+     SaveImageSequence(flowwarp_video, 'flowwarped.png');
 end
 
 function video = ComputeVideo(img0, img1, u0, v0, num_frames, frame_fn)
