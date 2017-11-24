@@ -81,7 +81,6 @@ function idx = HAClustering(X, k, visualize2D)
     % therefore we set the diagonal elements of dists to be +Inf.
     dists = squareform(pdist(centroids));
     dists = dists + diag(Inf(m, 1));
-    
     % If we are going to display the clusters graphically then create a
     % figure in which to draw the visualization.
     figHandle = [];
@@ -108,7 +107,10 @@ function idx = HAClustering(X, k, visualize2D)
         %                            YOUR CODE HERE                           %
         %                                                                     %
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
+        min_dist = min(min(dists));
+        [i,j] = find(dists ==min_dist);
+        i=i(1);
+        j=j(1);
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %                                                                     %
         %                            END YOUR CODE                            %
@@ -135,7 +137,7 @@ function idx = HAClustering(X, k, visualize2D)
         %                            YOUR CODE HERE                           %
         %                                                                     %
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%      
-        
+        idx(find(idx==j))=i; 
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %                                                                     %
         %                            END YOUR CODE                            %
@@ -151,7 +153,9 @@ function idx = HAClustering(X, k, visualize2D)
         %                            YOUR CODE HERE                           %
         %                                                                     %
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
+        centroids(i,:)=(centroids(i,:)*cluster_sizes(i)+centroids(j,:)*cluster_sizes(j))/(cluster_sizes(i)+cluster_sizes(j));
+        centroids(j,:)=zeros(size(centroids(j,:)))+1000000; % apparently pdist2 of octave computes (Inf - a) as zero, a is a constant
+
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %                                                                     %
         %                            END YOUR CODE                            %
@@ -164,7 +168,8 @@ function idx = HAClustering(X, k, visualize2D)
         %                            YOUR CODE HERE                           %
         %                                                                     %
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
+        cluster_sizes(i) = cluster_sizes(i) + cluster_sizes(j);
+        cluster_sizes(j)= 0;
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %                                                                     %
         %                            END YOUR CODE                            %
@@ -180,7 +185,13 @@ function idx = HAClustering(X, k, visualize2D)
         %                            YOUR CODE HERE                           %
         %                                                                     %
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
+        distances = pdist2(centroids,centroids(i,:));
+        dists(i,:) = distances';
+        dists(:,i) = distances;
+        dists(j,:) = Inf(size(dists(j,:)));
+        dists(:,j) = Inf(size(dists(:,j)));
+        dists(i,i) = Inf;
+        dists(j,j) = Inf;
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %                                                                     %
         %                            END YOUR CODE                            %

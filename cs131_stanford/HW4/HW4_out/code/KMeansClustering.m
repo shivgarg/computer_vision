@@ -45,14 +45,13 @@ function idx = KMeansClustering(X, k, visualize2D, centers)
         %                            YOUR CODE HERE                           %
         %                                                                     %
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
+        centers = X(randsample(linspace(1,m,m),k,replacement=false)); 
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %                                                                     %
         %                            END YOUR CODE                            %
         %                                                                     %
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     end
-    
     % The assignments of points to clusters. If idx(i) == c then the point
     % X(i, :) belongs to the cth cluster.
     idx = zeros(m, 1);
@@ -68,7 +67,6 @@ function idx = KMeansClustering(X, k, visualize2D, centers)
     while true        
         % Store old cluster assignments
         old_idx = idx;
-        
         % Compute distances from each point to the centers and assign each
         % point to the closest cluster.
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -76,7 +74,9 @@ function idx = KMeansClustering(X, k, visualize2D, centers)
         %                            YOUR CODE HERE                           %
         %                                                                     %
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
+        mat = pdist2(centers,X);
+        [dist,cluster] = min(mat);
+        idx = cluster';
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %                                                                     %
         %                            END YOUR CODE                            %
@@ -94,7 +94,9 @@ function idx = KMeansClustering(X, k, visualize2D, centers)
         %                            YOUR CODE HERE                           %
         %                                                                     %
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        
+        for i =1:k
+            centers(i,:)=mean(X(find(idx==i),:));
+        endfor  
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %                                                                     %
         %                            END YOUR CODE                            %
@@ -103,8 +105,8 @@ function idx = KMeansClustering(X, k, visualize2D, centers)
         
         % Display the points in the 2D case.
         if n == 2 && visualize2D
-            VisualizeClusters2D(X, idx, centers, figHandle);
-            pause;
+           VisualizeClusters2D(X, idx, centers, figHandle);
+          pause;
         end
         
         % Stop early if we have performed more than MAX_ITER iterations
