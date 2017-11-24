@@ -15,6 +15,13 @@ function features = ComputePositionColorFeatures(img)
     height = size(img, 1);
     width = size(img, 2);
     features = zeros(height, width, 5);
+    features(:,:,1:3) = double(img);
+    for i =1:height
+        features(i,:,5) = i;
+    endfor
+    for i=1:width
+        features(:,i,4) = i;
+    endfor
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %                                                                         %
     %                              YOUR CODE HERE                             %

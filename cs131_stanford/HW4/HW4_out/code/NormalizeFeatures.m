@@ -12,8 +12,14 @@ function featuresNorm = NormalizeFeatures(features)
 %                has been normalized to have zero mean and unit variance.
 
     features = double(features);
+    [m n o] = size(features);
+    for i=1:o
+        avg = mean(mean(features(:,:,i)));
+        sigma = std(reshape(features(:,:,i),m*n,1));
+        features(:,:,i)=features(:,:,i)-avg;
+        features(:,:,i)=features(:,:,i)/sigma;
+    endfor
     featuresNorm = features;
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %
 %                                YOUR CODE HERE:                               %
