@@ -45,7 +45,7 @@ function idx = KMeansClustering(X, k, visualize2D, centers)
         %                            YOUR CODE HERE                           %
         %                                                                     %
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        centers = X(randsample(linspace(1,m,m),k,replacement=false)); 
+        centers = X(randsample(linspace(1,m,m),k,replacement=false),:); 
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %                                                                     %
         %                            END YOUR CODE                            %
@@ -95,7 +95,11 @@ function idx = KMeansClustering(X, k, visualize2D, centers)
         %                                                                     %
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         for i =1:k
-            centers(i,:)=mean(X(find(idx==i),:));
+            avg=mean(X(find(idx==i),:));
+            if size(avg,1)==0
+                avg = zeros(size(centers(i,:)));
+            endif
+            centers(i,:)=avg;
         endfor  
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %                                                                     %

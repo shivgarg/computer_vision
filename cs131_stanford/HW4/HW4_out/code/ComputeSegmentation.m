@@ -99,8 +99,8 @@ function segments = ComputeSegmentation(img, k, clusteringMethod, featureFn, ...
     % of cluster identities as an image, and resize it to the size of the
     % original image. For this to work correctly the cluster identities
     % need to be resized using nearest neighbor interpolation.
-    idx = imresize(idx, [height, width], 'nearest');
-    
+    idx = imresize(idx/k, [height, width], 'nearest');
+    idx = idx*k; 
     % Conver the array of cluster identities into a more convenient data
     % structure.
     segments = MakeSegments(img, idx);

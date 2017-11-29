@@ -14,10 +14,10 @@ function featuresNorm = NormalizeFeatures(features)
     features = double(features);
     [m n o] = size(features);
     for i=1:o
-        avg = mean(features(:,:,i));
-        sigma = std(features(:,:,i));
+        avg = mean(mean(features(:,:,i)));
+        sigma = std(reshape(features(:,:,i),m*n,1));
         features(:,:,i)=features(:,:,i)-avg;
-        features(:,:,i)=features(:,:,i)./sigma;
+        features(:,:,i)=features(:,:,i)/sigma;
     endfor
     featuresNorm = features;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
