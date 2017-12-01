@@ -18,7 +18,12 @@ function D = ChiSquareDist( I1, I2, nbins )
 	
 	D = 0;
     % YOUR CODE STARTS HERE
-    
+    H1 = Histogram(I1,nbins);
+    H2 = Histogram(I2,nbins);
+    diff = (H1 - H2).*(H1 - H2);
+    total = H1 + H2;
+    total(find(total==0))=10000000000;
+    D = sum(diff./total)
     % YOUR CODE ENDS HERE
 end
 
