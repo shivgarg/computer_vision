@@ -1,8 +1,8 @@
 function compareFacesTest()
     
     % uncomment the method you want to use
-    %method = 'simple';
-    method = 'eigenface';
+    method = 'simple';
+    %method = 'eigenface';
     %method = 'fisherface';
     
     % uncomment the face you want to test

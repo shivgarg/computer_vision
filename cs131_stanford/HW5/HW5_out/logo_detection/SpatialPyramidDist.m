@@ -16,7 +16,7 @@ if nargin == 2
     nbins = 20;
 end
 
-numLevel =2;
+numLevel = 1;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %
 %                                YOUR CODE HERE                                %
@@ -59,13 +59,14 @@ for l = 1 : numLevel,
             x_hi2 = floor(min(i*size(I2,2)/numCells,size(I2,2)));
             y_lo2 = floor((j-1)*size(I2,1)/numCells+1);
             y_hi2 = floor(min(j*size(I2,1)/numCells,size(I2,1)));
-            D =D + HistIntersectDist(I1(y_lo1:y_hi1,x_lo1:x_hi1),I2(y_lo2:y_hi2,x_lo2:x_hi2),nbins)/(2.^(numLevel-l+1));
+            img1 = I1(y_lo1:y_hi1,x_lo1:x_hi1);
+            img2 = I2(y_lo2:y_hi2,x_lo2:x_hi2);
+            D = D + HistIntersectDist(img1,img2,nbins)/(2**(numLevel+l+1));
 %               You should fill in x_lo2, x_hi2, y_lo2, y_hi2 to               %
 %                    extract one cell of I2 in the pyramid.                    %
 %You should increment D by the weighted distances between patches in this cell.%
         end
     end
 end
-D
 end
 

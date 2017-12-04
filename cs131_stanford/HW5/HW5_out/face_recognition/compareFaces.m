@@ -30,9 +30,10 @@ function label = compareFaces(method, testImg)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Find the mean column of rawFaceMatrix, and subtract it from every
     % column to produce a zero-mean matrix A
-    meanFace = zeros(size(rawFaceMatrix,1),1);
-    A = zeros(size(rawFaceMatrix));
-    
+    meanFace = mean(rawFaceMatrix,2);
+    A = rawFaceMatrix - meanFace;
+    testImg = reshape(testImg , size(testImg,1)*size(testImg,2), 1);
+    testImg = testImg - meanFace;
     % Also "unroll" testImg to produce a single column vector, and
     % subtract the mean column from it, so that it can be compared to the
     % columns in the matrix A.
@@ -54,7 +55,7 @@ function label = compareFaces(method, testImg)
         % Compare the unrolled image to every other image in the matrix, and return the
         % index of the closest. The indexOfClosestColumn() function below
         % will be helpful.
-        indexOfClosestMatch = 0;
+        [~,indexOfClosestMatch] = indexOfClosestColumn(A,testImg)
         
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %                                                                     %
@@ -128,7 +129,7 @@ function label = compareFaces(method, testImg)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Nearest Neighbor: Find the label of the closest-matched training
     % example. (The imageOwner array holds the labels).
-    label = 1;
+    label = imageOwner(indexOfClosestMatch)
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %                                                                     %
@@ -165,7 +166,7 @@ function [minDist, indexOfClosest] = indexOfClosestColumn(A, testColumn)
     %                                                                     %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Implement the function as described above.
-    
+    [minDist,indexOfClosest] = min(sum((A-testColumn).*(A-testColumn))) 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %                                                                     %
     %                            END YOUR CODE                            %
