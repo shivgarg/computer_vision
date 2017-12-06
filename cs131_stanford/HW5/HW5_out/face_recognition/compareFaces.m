@@ -72,15 +72,15 @@ function label = compareFaces(method, testImg)
         % the image set. Convert the test image into the same PCA space,
         % and compare it to the PCA-space version of each training image to
         % find the closest.
+
         numComponentsToKeep = 20;
-        prinComponents = [];
-        weightCols = [];
+        [prinComponents ,weightCols] = doPCA(A,numComponentsToKeep);
         
-        indexOfClosestMatch = 0;
+        [~,indexOfClosestMatch] = indexOfClosestColumn(weightCols,prinComponents'*testImg);
         
         % uncomment this line to view the principal components (a.k.a.
         % Eigenfaces) as images.
-        % viewComponents(prinComponents, imgHeight); 
+        viewComponents(prinComponents, imgHeight); 
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         %                                                                     %
         %                            END YOUR CODE                            %
@@ -98,11 +98,8 @@ function label = compareFaces(method, testImg)
         % training image to find the closest. This code will be very
         % similar to your code above.
         numComponentsToKeep = 20;
-        prinComponents = [];
-        weightCols = [];
-        
-        indexOfClosestMatch = 0;
-        
+        [prinComponents ,weightCols] = fisherfaces(A,imageOwner,numComponentsToKeep);
+        [~,indexOfClosestMatch] = indexOfClosestColumn(weightCols,prinComponents'*testImg);
         
         % uncomment this line to view the principal components (a.k.a.
         % Eigenfaces or Fisherfaces) as images.

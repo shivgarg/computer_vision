@@ -25,10 +25,12 @@ function [prinComponents, weightCols] = doPCA(A, numComponentsToKeep)
     %                                                                     %
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     % Perform PCA on A to produce the principal components and weights, as
-    % discussed above. 
+    % discussed above.
     weightCols = zeros(numComponentsToKeep, size(A,2));
     prinComponents = zeros(size(A,1), numComponentsToKeep);
-    
+    [~, ~, prinComponents] = svd(A',numComponentsToKeep);
+    weightCols = prinComponents'*A;
+
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %                                                                     %
     %                            END YOUR CODE                            %
