@@ -1,6 +1,6 @@
 import numpy as np
 from past.builtins import xrange
-
+from scipy import stats
 
 class KNearestNeighbor(object):
   """ a kNN classifier with L2 distance """
@@ -66,7 +66,6 @@ class KNearestNeighbor(object):
     num_train = self.X_train.shape[0]
     dists = np.zeros((num_test, num_train))
     for i in xrange(num_test):
-      print i
       for j in xrange(num_train):
         #####################################################################
         # TODO:                                                             #
@@ -97,7 +96,7 @@ class KNearestNeighbor(object):
       # Compute the l2 distance between the ith test point and all training #
       # points, and store the result in dists[i, :].                        #
       #######################################################################
-      pass
+      dists[i] = np.sqrt(np.sum(np.power(self.X_train-X[i],2),1))
       #######################################################################
       #                         END OF YOUR CODE                            #
       #######################################################################
@@ -125,7 +124,14 @@ class KNearestNeighbor(object):
     # HINT: Try to formulate the l2 distance using matrix multiplication    #
     #       and two broadcast sums.                                         #
     #########################################################################
-    pass
+    tmp = np.sum(np.power(self.X_train,2),1)
+    dists += tmp
+    tmp = np.reshape(np.sum(np.power(X,2),1),[num_test, 1])
+    dists += tmp
+    tmp = np.matrix(X)*np.transpose(np.matrix(self.X_train))
+    dists -= 2*tmp
+    dists = np.sqrt(dists)
+
     #########################################################################
     #                         END OF YOUR CODE                              #
     #########################################################################
@@ -157,7 +163,7 @@ class KNearestNeighbor(object):
       # neighbors. Store these labels in closest_y.                           #
       # Hint: Look up the function numpy.argsort.                             #
       #########################################################################
-      pass
+      closest_y = np.take(self.y_train, np.argsort(dists[i])[0:k])
       #########################################################################
       # TODO:                                                                 #
       # Now that you have found the labels of the k nearest neighbors, you    #
@@ -165,7 +171,7 @@ class KNearestNeighbor(object):
       # Store this label in y_pred[i]. Break ties by choosing the smaller     #
       # label.                                                                #
       #########################################################################
-      pass
+      y_pred[i] = stats.mode(closest_y)[0]
       #########################################################################
       #                           END OF YOUR CODE                            # 
       #########################################################################
