@@ -137,7 +137,17 @@ class CaptioningRNN(object):
         # defined above to store loss and gradients; grads[k] should give the      #
         # gradients for self.params[k].                                            #
         ############################################################################
-        pass
+        h0 = features.dot(W_proj) + b_proj
+        x, cache_word= word_embedding_forward(captions_in, W_embed)
+        hidden_states, cache_rnn = rnn_forward(x, h0, Wx, Wh, b)
+        y_out , cache_affine = temporal_affine_forward(hidden_states, W_vocab, b_vocab)
+        loss, dout = temporal_softmax_loss(y_out, captions_out, mask)
+
+        dout, grads['W_vocab'], grads['b_vocab'] = temporal_affine_backward(dout, cache_affine)
+        dout, dh0, grads['Wx'], grads['Wh'], grads['b'] = rnn_backward(dout, cache_rnn)
+        grads['W_embed'] = word_embedding_backward(dout, cache_word)
+        grads['b_proj'] = np.sum(dh0,0)
+        grads['W_proj'] = features.T.dot(dh0)
         ############################################################################
         #                             END OF YOUR CODE                             #
         ############################################################################
@@ -199,7 +209,14 @@ class CaptioningRNN(object):
         # functions; you'll need to call rnn_step_forward or lstm_step_forward in #
         # a loop.                                                                 #
         ###########################################################################
-        pass
+        prev_out = [self.word_to_idx['<START>'] for i in np.arange(N)]
+        h = features.dot(W_proj) + b_proj
+        for i in np.arange(max_length):
+          embedding, _ = word_embedding_forward(prev_out, W_embed)
+          h, _ = rnn_step_forward(embedding, h, Wx, Wh, b)
+          prev_out = h.dot(W_vocab) + b_vocab
+          prev_out = np.argmax(prev_out,1)
+          captions[:,i] = prev_out
         ############################################################################
         #                             END OF YOUR CODE                             #
         ############################################################################

@@ -140,14 +140,14 @@ def rnn_backward(dh, cache):
     D = cache[0][0].shape[1]
     
     dx = np.zeros([N,T,D])
-    dh0 = dh[:,T-1,:]
+    dh0 = np.zeros([N,H])
     dWx = np.zeros([D,H])
     dWh = np.zeros([H,H])
-    db = np.zeros([1,H])
+    db = np.zeros(H)
 
     for i in np.arange(T):
-        dx_t, dh0, dWx_t, dWh_t, db_t = rnn_step_backward(dh0,cache[T-i-1])
-        dx[:,T-i-1,:] = dx_t
+        dx_t, dh0, dWx_t, dWh_t, db_t = rnn_step_backward(dh0 + dh[:,T-i-1,:],cache[T-i-1])
+        dx[:,T-i-1,:] = dx_t[None,:,:]
         dWx += dWx_t
         dWh += dWh_t
         db += db_t
@@ -178,7 +178,8 @@ def word_embedding_forward(x, W):
     #                                                                            #
     # HINT: This can be done in one line using NumPy's array indexing.           #
     ##############################################################################
-    pass
+    out = W[x]
+    cache = (x, W.shape)
     ##############################################################################
     #                               END OF YOUR CODE                             #
     ##############################################################################
@@ -200,14 +201,16 @@ def word_embedding_backward(dout, cache):
     Returns:
     - dW: Gradient of word embedding matrix, of shape (V, D).
     """
-    dW = None
+    x , (V,D) = cache
+    dW = np.zeros([V,D])
+    np.add.at(dW,x,dout)
     ##############################################################################
     # TODO: Implement the backward pass for word embeddings.                     #
     #                                                                            #
     # Note that Words can appear more than once in a sequence.                   #
     # HINT: Look up the function np.add.at                                       #
     ##############################################################################
-    pass
+    
     ##############################################################################
     #                               END OF YOUR CODE                             #
     ##############################################################################
@@ -253,7 +256,11 @@ def lstm_step_forward(x, prev_h, prev_c, Wx, Wh, b):
     # TODO: Implement the forward pass for a single timestep of an LSTM.        #
     # You may want to use the numerically stable sigmoid implementation above.  #
     #############################################################################
-    pass
+    H = prev_h.shape[1]    
+    a = x.dot(Wx) + prev_h.dot(Wh) + b
+    next_c = sigmoid(a[:,H:2*H])*prev_c + sigmoid(a[:,:H])*np.tanh(a[:,3*H:])
+    next_h = sigmoid(a[:,2*H:3*H])*np.tanh(next_c)
+    cache = (x, prev_h, prev_c, Wx, Wh, b)
     ##############################################################################
     #                               END OF YOUR CODE                             #
     ##############################################################################

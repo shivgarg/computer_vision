@@ -1,3 +1,8 @@
 *.swp
 *.pyc
 .env/*
+cs231n/datasets/coco_captioning/
+cs231n/datasets/imagenet_val_25.npz
+cs231n/datasets/squeezenet.ckpt.data-00000-of-00001
+cs231n/datasets/squeezenet.ckpt.index
+cs231n/datasets/squeezenet.ckpt.meta
