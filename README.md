@@ -57,12 +57,29 @@ Sub-Pixel Convolutional Neural Network](https://arxiv.org/pdf/1609.05158.pdf), C
 #### Traditional Vision
 
 * [Tomasi, and Jianbo Shi. “Good Features to Track.”](http://ntucsu.csie.ntu.edu.tw/~b92025/paper/shi-tomasi-good-features-cvpr1994.pdf), CVPR, 1994
+    <details>
+        The papers addresses three issues in image tracking in an image sequence.First they demonstrate that pure transaltional models are not measures to measure dissimilarity in features across frames. Affine image changes perform decently to measure dissimilarity. Secondly they propose a stable numerical method using Newton-Raphson minimization procedure to track features.Thirdly, they propose a feature selection criterion based on tracker's accuracy. This is an old paper and has been superseeded. 
+    </details>
 * [Mikolajczyk, Krystian, and Cordelia Schmid. “A Performance Evaluation of Local Descriptors.”](https://www.robots.ox.ac.uk/~vgg/research/affine/det_eval_files/mikolajczyk_pami2004.pdf), PAML, 2005
-* [Bregler, Christoph, et al. “Large Displacement Optical Flow.”](https://people.eecs.berkeley.edu/~malik/papers/brox-malik-pami-2010.pdf), CVPR, 2009
+    <details>
+        This work analyses various descriptors and describes the performance wrt the region on interest.  The evaluation criteria they used was recall and precision. They carried out tests for various image transformations. The descriptors they comapred include SIFT, spin images, complex filter, moment invariants etc. 
+    </details>
 * [Lowe, David G. “Distinctive Image Features from Scale-Invariant Keypoints.” ](http://www-inst.eecs.berkeley.edu/~ee225b/fa12/readings/sift-lowe.pdf), 2004
+    <details>
+     This papers presents a method to extract features from images which are robust to image scale and rotation, affine distortion, change in 3d viewpoint etc. The major parts of the paper are :
+     <ul>
+     <li> Identify points of interests by using a difference of gaussian function.
+     <li> Filter points based on location, scale and ratio of principal curvatures.
+     <li> Assign orientation to each point based on direction of local image gradients.
+     <li> Determine the features by computing image gradients relative to orientation and weigh them by using a gaussain function. Create a gradient histogram with each bar representing the magnitude of gradients in a particular direction.
+     </ul>
+    </details>
 * [Indexing based on scale invariant interest points](https://hal.inria.fr/inria-00548276/document)
 * [Visual Tracking with Online Multiple Instance Learning](https://vision.cornell.edu/se3/wp-content/uploads/2014/09/0fcfd5086e4e9dd86c000000.pdf), CVPR, 2009
 * [Mean shift: a robust approach toward feature space analysis](http://ieeexplore.ieee.org/abstract/document/1000236/)
+    <details>
+        This paper gives an approach to analyse large dimensioanl feature spaces. The main idea used is of the density estimation using kernels. So basically, the features are projected into a d dimensional space and density function is defined over all the projected points. Mean shift procedure(basically gradient descent on density function) is used to find extrema's of the density estimate. This processed feature space is used for discontinuity preserving smoothing and segmentation problems.
+    </details>
 * [EpicFlow: Edge-preserving interpolation of correspondences for optical flow](https://www.cv-foundation.org/openaccess/content_cvpr_2015/papers/Revaud_EpicFlow_Edge-Preserving_Interpolation_2015_CVPR_paper.pdf), CVPR 2015
 * [Torr, Philip H. S., et al. “Struck: Structured Output Tracking with Kernels.](https://ora.ox.ac.uk/objects/uuid:0eb1b105-81f3-4a79-a503-f492994cc80a/datastreams/ATTACHMENT01), ICCV, 2011
 * [Mikolajczyk, Krystian, et al. “Tracking-Learning-Detection.”](http://ieeexplore.ieee.org/document/6104061/), PAML, 2012
