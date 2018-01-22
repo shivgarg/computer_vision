@@ -6,7 +6,6 @@
 
 #### Deep Learning Generiic
 
-* [Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/pdf/1502.03167.pdf) , ICML, 2015
 * [LSTM: A search space odyssey](https://arxiv.org/pdf/1503.04069.pdf) ,IEEE-TNNLS, 2016
 * [On the importance of initialization and momentum in deep learning](http://proceedings.mlr.press/v28/sutskever13.pdf), ICML, 2013
 * [Net2net: Accelerating learning via knowledge transfer](https://arxiv.org/pdf/1511.05641.pdf), ICLR, 2016
@@ -52,8 +51,7 @@ Sub-Pixel Convolutional Neural Network](https://arxiv.org/pdf/1609.05158.pdf), C
   <details>
     This paper proposes replacing feature maps with neural networks. The defined structure mlpconv, is an MLP which takes local patch as input and gives an output feature vector. The MLP operator is equivalent to the conventional 1x1 convolutional layer. Secondly the paper replaces the fully connected layers in the end of the network which global average pooling layers. The fully connected layers have a lot of parameters which need to be learned and they can easily overfit thus being less dependent on various regularisation tricks.<br>
     <img src='images/nin.png'>
-  </details>  
-
+  </details>
 * [Striving for Simplicity: The All Convolutional Net](https://arxiv.org/pdf/1412.6806.pdf), ICLR, 2014
     <details>
         This paper analyses the basic design pipeline of CNN and proposes to replace the pooling layers with a convolutional layer with a non unit stride. The pooling layer can be seen as a convolutional layer with a p-norm operator being applied to each element instead of linear dot product. 
@@ -62,6 +60,13 @@ Sub-Pixel Convolutional Neural Network](https://arxiv.org/pdf/1609.05158.pdf), C
     <details>
         The paper proposes use of svm layer instead of softmax layer in the neural network architectures. They use L2-SVM loss function to train the network.
     </details>
+* [Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/pdf/1502.03167.pdf) , ICML, 2015
+    <details>
+        The paper proposes a method to accelerate the training of neural networks. It observes the fact that fact keeping input distribution same accelerates training of the system , also applies to the inputs of hiden layers. Changing input distribution to hidden layers makes training of hidden difficult. So batch normalisation layer is proposed which normalizes each scalar output in a minibatch independently of all other features values.  Each batch normalisation layer has two parameters vectors $ \gamma , \beta $ which scale and shift the normalised value respectively. <br>
+        <img src='images/batch_norm.png'><br>
+        During training, the mean and variance vectors are stored for determining the value of mean and variance during test time.
+        The layer is applied before the non-linearity layer. The batch norm lauer enables higher learning rates and better performance. For CNN, the mean and variance is computed over whole feature map output. 
+     </details>
 
 #### ImageNet Competition Winners
 
