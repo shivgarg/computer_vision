@@ -4,7 +4,7 @@
 
 ### To Read
 
-#### Deep Learning Generiic
+#### Deep Learning Generic
 
 * [LSTM: A search space odyssey](https://arxiv.org/pdf/1503.04069.pdf) ,IEEE-TNNLS, 2016
 * [On the importance of initialization and momentum in deep learning](http://proceedings.mlr.press/v28/sutskever13.pdf), ICML, 2013
