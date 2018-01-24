@@ -6,7 +6,6 @@
 
 #### Deep Learning Generic
 
-* [LSTM: A search space odyssey](https://arxiv.org/pdf/1503.04069.pdf) ,IEEE-TNNLS, 2016
 * [On the importance of initialization and momentum in deep learning](http://proceedings.mlr.press/v28/sutskever13.pdf), ICML, 2013
 * [Net2net: Accelerating learning via knowledge transfer](https://arxiv.org/pdf/1511.05641.pdf), ICLR, 2016
 * [Network morphism](http://proceedings.mlr.press/v48/wei16.pdf), ICML, 2016
@@ -67,6 +66,16 @@ Sub-Pixel Convolutional Neural Network](https://arxiv.org/pdf/1609.05158.pdf), C
         During training, the mean and variance vectors are stored for determining the value of mean and variance during test time.
         The layer is applied before the non-linearity layer. The batch norm lauer enables higher learning rates and better performance. For CNN, the mean and variance is computed over whole feature map output. 
      </details>
+* [LSTM: A search space odyssey](https://arxiv.org/pdf/1503.04069.pdf) ,IEEE-TNNLS, 2016
+    <details>
+        8 variations of LSTM are analysed to determine desirable properties in design of LSTM. The variations were evaluated on three tasks, acoustic modelling(TIMIT dataset), handwriting recognition(IAM Online) and polyphonic music modelling(JSB Chorales). Network with single hidden layer with sigmoid was used for music modelling task. Bi-RNN was used for other two tasks.The experiments yielded following results:-
+        <ul>
+        <li> Removal of forget gate or output activation function hurts performance.
+        <li> Coupling input and forget gates and removing peephole conenction didn't lead to degradation of performance.
+        <li> Full gate recurrence didnt result in performance gains given the increase in the number of trainable parameters.
+        </ul>
+        The imapct of hyperparameters was also studied. High and low learning rates lead to sub-optimal results. So a recommended strategy is to start learning rate with 1 and reduce it by 10 until final performance stop improving. Increasing number of hidden layers led to better results but it lead to substantial increase in training times. So there is a tradeoff and needs to be balanced carefully. Momentum in gradient updates didnt affect network performance and neither reduced the training time. Moreover, hyperparameters do not interact with each other . Changing two or more together didnt augment the affect of each other's change. Therefore, one can tune them separately and the resulting parameters would give a decent performance.
+    </details>
 
 #### ImageNet Competition Winners
 
