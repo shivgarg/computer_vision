@@ -76,7 +76,12 @@ Sub-Pixel Convolutional Neural Network](https://arxiv.org/pdf/1609.05158.pdf), C
         </ul>
         The imapct of hyperparameters was also studied. High and low learning rates lead to sub-optimal results. So a recommended strategy is to start learning rate with 1 and reduce it by 10 until final performance stop improving. Increasing number of hidden layers led to better results but it lead to substantial increase in training times. So there is a tradeoff and needs to be balanced carefully. Momentum in gradient updates didnt affect network performance and neither reduced the training time. Moreover, hyperparameters do not interact with each other . Changing two or more together didnt augment the affect of each other's change. Therefore, one can tune them separately and the resulting parameters would give a decent performance.
     </details>
-
+* [Dropout: a simple way to prevent neural networks from overfitting](http://jmlr.org/papers/volume15/srivastava14a/srivastava14a.pdf), JMLR, 2014
+    <details>
+        A regularisation technique Dropout is introduced. Dropout samples networks from a given network by turning off hidden nodes with a probability p. At each training step, a network is sampled and trained with gradient updating parameters of each which were sampled. During test time, whole network is retained with each node's output being multiplied with p.
+        <img src='images/dropout.png'><br>
+        The parameters of all sampled networks are shared. This sampling procedure help to reduce overfitting which is caused by hidden nodes co-adapting to each other. In the conventional setup, the nodes try to correct errors made by other nodes thereby inducing strong corelations. But these corelations might not be present in unseen data, thus leading to overfitting. Dropout tries to make each node learn independently. Dropout has led to improvement over a whole class of problems in vision, speech, text etc.  Dropout alongwith Max normalisation has worked best in many settings. The value of p is found by validation accuracy, but mostly it works best in range [0.4,0.8]. Dropout can be extended to multiplying gaussian noise ~ N(1,1) to activations instead of bernoulli random variable. One of the major drawbacks of Dropout is that it increases training time by 2-3 times.
+    </details>
 #### ImageNet Competition Winners
 
 * [Imagenet classification with deep convolutional neural networks](http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf), NIPS,2014, [AlexNet]
