@@ -1,6 +1,6 @@
 [submodule "courses/cs131-stanford"]
 	path = courses/cs131-stanford
-	url = git@github.com:shivgarg/cs131-stanford.git
+	url = https://github.com/shivgarg/cs131-stanford.git
 [submodule "courses/cs231n-stanford"]
 	path = courses/cs231n-stanford
-	url = git@github.com:shivgarg/cs231n-stanford.git
+	url = https://github.com/shivgarg/cs231n-stanford.git

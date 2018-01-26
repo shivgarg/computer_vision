@@ -82,6 +82,13 @@ Sub-Pixel Convolutional Neural Network](https://arxiv.org/pdf/1609.05158.pdf), C
         <img src='images/dropout.png'><br>
         The parameters of all sampled networks are shared. This sampling procedure help to reduce overfitting which is caused by hidden nodes co-adapting to each other. In the conventional setup, the nodes try to correct errors made by other nodes thereby inducing strong corelations. But these corelations might not be present in unseen data, thus leading to overfitting. Dropout tries to make each node learn independently. Dropout has led to improvement over a whole class of problems in vision, speech, text etc.  Dropout alongwith Max normalisation has worked best in many settings. The value of p is found by validation accuracy, but mostly it works best in range [0.4,0.8]. Dropout can be extended to multiplying gaussian noise ~ N(1,1) to activations instead of bernoulli random variable. One of the major drawbacks of Dropout is that it increases training time by 2-3 times.
     </details>
+* [Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification](https://www.cv-foundation.org/openaccess/content_iccv_2015/papers/He_Delving_Deep_into_ICCV_2015_paper.pdf) , ICCV, 2015
+    <details>
+        A variation of relu activation function is introduced, namely Parameteric Relu, which instead of having zero output for negative values, output a non-zero value. The functions take the form f(x) = max(0,x) + a*min(0,x). The parameter is learned while training.<br>
+        <img src='images/prelu.png'><br>
+        The paper also explores into the initialisation method and improves upon xaviers initialisation method. It concentrates on the fact , that non-linearities would affect the distribution of input to layers and analyses, which is skipped by xaviers method and the std deviation of distribution according to which weights are initliased is estimated by keeping the above mentioned fact in mind. They observe that the network converges faster with their estimates of std dev and the initialisation helps them to train deeper networks.  
+    </details>
+
 #### ImageNet Competition Winners
 
 * [Imagenet classification with deep convolutional neural networks](http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf), NIPS,2014, [AlexNet]
