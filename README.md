@@ -14,7 +14,6 @@
 
 #### Generative Models for Vision
 
-* [Generative adversarial nets](http://papers.nips.cc/paper/5423-generative-adversarial-nets.pdf), NIPS, 2014 [GAN]
 * [Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks](https://arxiv.org/pdf/1511.06434.pdf), ICLR, 2016 [DCGAN]
 * [Conditional image generation with pixelcnn decoders](http://papers.nips.cc/paper/6527-conditional-image-generation-with-pixelcnn-decoders.pdf), NIPS,2016
 * [PixelCNN++: Improving the PixelCNN with discretized logistic mixture likelihood and other modifications](https://arxiv.org/pdf/1701.05517.pdf), ICLR, 2016
@@ -117,6 +116,16 @@ Sub-Pixel Convolutional Neural Network](https://arxiv.org/pdf/1609.05158.pdf), C
     <details>
         The paper proposes a network architecture to solve the problem of training of very deep networks.Shortcut connections are introduced in the networks which help network to easily learn identity mapping if extra layers are not required. In addition, the shortcut connections also facilitate gradient flow. Each module of layers learn a residual function F(x) .<br> 
             <img src = 'images/residual.png'>
+    </details>
+
+#### Generative Models for Vision
+
+* [Generative adversarial nets](http://papers.nips.cc/paper/5423-generative-adversarial-nets.pdf), NIPS, 2014 [GAN]
+    <details>
+        The paper lays down a new framework of generative models. The basic idea is based on adversarial method. The framework has two parts, a discriminator and a generator. The parts compete against each other. The discriminator takes in an input and tries to determine whether the input comes from the data distribution or the distribution learned by the generator. Generator tries to learn the data distribution by trying to fool the discriminator. Generator takes noise variables as input and models the noise into images by using a multilayer perceptron. The discriminator takes image as input and outputs a scalar denoting the probability that the input is from data distribution. Discriminator is trained to maximise the probability of assigning correct labels to both training examples and examples generated from generator. Generator is trained to maximise, discriminator's error on generated samples. This is a formulation of minimax game with the following objective function;- <br>
+        min<sub>G</sub>max<sub>D</sub> O(D,G) = E<sub>x~p(data)</sub>[log(D(x))] + E<sub>x~p(x)</sub>[log(1-D(G(x)))] <br>
+        where D, G are discriminator and generator functions resp. and p(x) denotes the prior distribution over the noise variables.<br>
+        This game is implemented in a loop by optimising D for some number(k) of iterations and one iteration of optimisation for generator. Ideally, D should be optimised completely before optimising G, but this is computationally prohibitive.
     </details>
 
 #### General
