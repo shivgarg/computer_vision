@@ -1,45 +1,6 @@
 # computer_vision
 
 ## Papers
-
-### To Read
-
-#### Deep Learning Generic
-
-* [On the importance of initialization and momentum in deep learning](http://proceedings.mlr.press/v28/sutskever13.pdf), ICML, 2013
-* [Network morphism](http://proceedings.mlr.press/v48/wei16.pdf), ICML, 2016
-* [Intriguing properties of neural networks](https://arxiv.org/pdf/1312.6199.pdf), ICLR, 2014
-* [Dynamic Routing Between Capsules](https://arxiv.org/pdf/1710.09829.pdf), NIPS, 2017
-
-#### Generative Models for Vision
-
-* [Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks](https://arxiv.org/pdf/1511.06434.pdf), ICLR, 2016 [DCGAN]
-* [Conditional image generation with pixelcnn decoders](http://papers.nips.cc/paper/6527-conditional-image-generation-with-pixelcnn-decoders.pdf), NIPS,2016
-* [PixelCNN++: Improving the PixelCNN with discretized logistic mixture likelihood and other modifications](https://arxiv.org/pdf/1701.05517.pdf), ICLR, 2016
-* [Pixel recurrent neural networks](https://arxiv.org/pdf/1601.06759.pdf), ICML, 2016
-* [InfoGAN](https://arxiv.org/pdf/1606.03657.pdf) NIPS,2016
-* [Image Style Transfer Using Convolutional Neural Networks](https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Gatys_Image_Style_Transfer_CVPR_2016_paper.pdf) ,CVPR, 2016 [Neural Style Transfer]
-* [Real-Time Single Image and Video Super-Resolution Using an Efficient
-Sub-Pixel Convolutional Neural Network](https://arxiv.org/pdf/1609.05158.pdf), CVPR, 2016
-* [Improved Techniques for Training GAN](https://arxiv.org/pdf/1606.03498.pdf), NIPS, 2016
-* [Wasserstein GAN](https://arxiv.org/abs/1701.07875)
-* [Improved Training of Wasserstein GANs](https://arxiv.org/pdf/1704.00028.pdf), NIPS, 2017
-* [Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks](https://arxiv.org/pdf/1511.06434.pdf), ICLR, 2016
-* [Least Squares Generative Adversarial Networks](https://arxiv.org/pdf/1611.04076.pdf), ICCV, 2017
-
-#### Object Detection/Recognition/Segmentation
-
-* [Scalable Object Detection Using Deep Neural Networks](https://arxiv.org/pdf/1312.2249.pdf), CVPR, 2014
-* [Fast R-CNN](https://www.cv-foundation.org/openaccess/content_iccv_2015/papers/Girshick_Fast_R-CNN_ICCV_2015_paper.pdf) , ICCV, 2015
-* [Faster R-CNN: Towards real-time object detection with region proposal networks](http://papers.nips.cc/paper/5638-faster-r-cnn-towards-real-time-object-detection-with-region-proposal-networks.pdf), NIPS, 2015
-* [Mask R-CNN](https://arxiv.org/pdf/1703.06870.pdf), ICCV, 2017
-* [You only look once: Unified, real-time object detection](https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Redmon_You_Only_Look_CVPR_2016_paper.pdf), CVPR, 2016
-* [Rich feature hierarchies for accurate object detection and semantic segmentation](https://www.cv-foundation.org/openaccess/content_cvpr_2014/papers/Girshick_Rich_Feature_Hierarchies_2014_CVPR_paper.pdf), CVPR, 2014
-* [Segmentation as selective search for object recognition](https://www.koen.me/research/pub/vandesande-iccv2011.pdf), ICCV, 2011
-* [SSD: Single shot multibox detector](https://arxiv.org/pdf/1512.02325.pdf), ECCV, 2016
-* [Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps](https://arxiv.org/pdf/1312.6034.pdf), CVPR, 2013
-* [DenseCap: Fully Convolutional Localization Networks for Dense Captioning](https://arxiv.org/pdf/1511.07571.pdf), CVPR, 2016
-
 ### Read
 
 #### Deep Learning Generic
@@ -107,6 +68,26 @@ Sub-Pixel Convolutional Neural Network](https://arxiv.org/pdf/1609.05158.pdf), C
 
     </details>
 
+#### Reinforcement Learning
+* [Neural Architecture Search with Reinforcement Learning](https://research.google.com/pubs/pub45826.html)
+    <details>
+    The paper focuses on problem of generating state of the art neural network architectures for various problems.RNN is used for predicitng the structure of neural network. The RNN is trained with re-inforcement learning to maximise the expected accuracy of the generated network.<img src='images/nn-rl.png'><br>
+    The network predicts one paramter of network at a time. For eg, for a convolutional layer, the parameters like filter width and height, stride width and height, no. of filters are predicted one at a time with the previous predicted parameters being input to the RNN for next parameter prediction.<br>
+    The list of parameters predicted is analogous to actions in a re-inforcement learning problem framework and the accuracy of the generated network as the reward. Policy gradient method is used to update parameters of RNN.<br>
+    The framework was used to generate networks for both vision and language tasks. Various structures like cell structure for recurrent neural networks, skip connections in cnns and rnns are predicted by the framework. The cell architecture for rnn found is given in tensorflow contrib module as NASCell. The networks generated perform very well on CIFAR-10 and PTB(Penn Treebank) language modelling task. 
+
+
+</details>
+
+#### Generative Models for Vision
+
+* [Generative adversarial nets](http://papers.nips.cc/paper/5423-generative-adversarial-nets.pdf), NIPS, 2014 [GAN]
+    <details>
+        The paper lays down a new framework of generative models. The basic idea is based on adversarial method. The framework has two parts, a discriminator and a generator. The parts compete against each other. The discriminator takes in an input and tries to determine whether the input comes from the data distribution or the distribution learned by the generator. Generator tries to learn the data distribution by trying to fool the discriminator. Generator takes noise variables as input and models the noise into images by using a multilayer perceptron. The discriminator takes image as input and outputs a scalar denoting the probability that the input is from data distribution. Discriminator is trained to maximise the probability of assigning correct labels to both training examples and examples generated from generator. Generator is trained to maximise, discriminator's error on generated samples. This is a formulation of minimax game with the following objective function;- <br>
+        min<sub>G</sub>max<sub>D</sub> O(D,G) = E<sub>x~p(data)</sub>[log(D(x))] + E<sub>x~p(x)</sub>[log(1-D(G(x)))] <br>
+        where D, G are discriminator and generator functions resp. and p(x) denotes the prior distribution over the noise variables.<br>
+        This game is implemented in a loop by optimising D for some number(k) of iterations and one iteration of optimisation for generator. Ideally, D should be optimised completely before optimising G, but this is computationally prohibitive.
+    </details>
 #### ImageNet Competition Winners
 
 * [Imagenet classification with deep convolutional neural networks](http://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf), NIPS,2014, [AlexNet]
@@ -132,15 +113,6 @@ Sub-Pixel Convolutional Neural Network](https://arxiv.org/pdf/1609.05158.pdf), C
             <img src = 'images/residual.png'>
     </details>
 
-#### Generative Models for Vision
-
-* [Generative adversarial nets](http://papers.nips.cc/paper/5423-generative-adversarial-nets.pdf), NIPS, 2014 [GAN]
-    <details>
-        The paper lays down a new framework of generative models. The basic idea is based on adversarial method. The framework has two parts, a discriminator and a generator. The parts compete against each other. The discriminator takes in an input and tries to determine whether the input comes from the data distribution or the distribution learned by the generator. Generator tries to learn the data distribution by trying to fool the discriminator. Generator takes noise variables as input and models the noise into images by using a multilayer perceptron. The discriminator takes image as input and outputs a scalar denoting the probability that the input is from data distribution. Discriminator is trained to maximise the probability of assigning correct labels to both training examples and examples generated from generator. Generator is trained to maximise, discriminator's error on generated samples. This is a formulation of minimax game with the following objective function;- <br>
-        min<sub>G</sub>max<sub>D</sub> O(D,G) = E<sub>x~p(data)</sub>[log(D(x))] + E<sub>x~p(x)</sub>[log(1-D(G(x)))] <br>
-        where D, G are discriminator and generator functions resp. and p(x) denotes the prior distribution over the noise variables.<br>
-        This game is implemented in a loop by optimising D for some number(k) of iterations and one iteration of optimisation for generator. Ideally, D should be optimised completely before optimising G, but this is computationally prohibitive.
-    </details>
 
 #### General
 
@@ -184,6 +156,45 @@ Sub-Pixel Convolutional Neural Network](https://arxiv.org/pdf/1609.05158.pdf), C
      <details>
         The paper tackles the problem of tracking objects in videos. It proposes a TLD(Tracking Learning Detection) approach. Their method has three components. First component, the tracker predicts the position of object in next frame assuming limited frame to frame motion. Second component, Detector takes input the image at time t and analyses it independently. Third component is a PN learning system which evaluate the performance of both tracker and detector and generates training examples to correct them. The P expert checks for false negatives and adds them to positive training set for the detector. The N expert checks for false positives and adds them to the negative training set. The PN expert system is designed in such a way such that the errors in PN system are complementary and they compensate errors of each other in generating training examples. The object classifer is a three stage with the last stage being nearest neighbour classifier.The tracker is based in Median-flow tracker extended with failure detection.   
      </details>
+
+
+### To Read
+
+#### Deep Learning Generic
+
+* [On the importance of initialization and momentum in deep learning](http://proceedings.mlr.press/v28/sutskever13.pdf), ICML, 2013
+* [Network morphism](http://proceedings.mlr.press/v48/wei16.pdf), ICML, 2016
+* [Intriguing properties of neural networks](https://arxiv.org/pdf/1312.6199.pdf), ICLR, 2014
+* [Dynamic Routing Between Capsules](https://arxiv.org/pdf/1710.09829.pdf), NIPS, 2017
+
+#### Generative Models for Vision
+
+* [Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks](https://arxiv.org/pdf/1511.06434.pdf), ICLR, 2016 [DCGAN]
+* [Conditional image generation with pixelcnn decoders](http://papers.nips.cc/paper/6527-conditional-image-generation-with-pixelcnn-decoders.pdf), NIPS,2016
+* [PixelCNN++: Improving the PixelCNN with discretized logistic mixture likelihood and other modifications](https://arxiv.org/pdf/1701.05517.pdf), ICLR, 2016
+* [Pixel recurrent neural networks](https://arxiv.org/pdf/1601.06759.pdf), ICML, 2016
+* [InfoGAN](https://arxiv.org/pdf/1606.03657.pdf) NIPS,2016
+* [Image Style Transfer Using Convolutional Neural Networks](https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Gatys_Image_Style_Transfer_CVPR_2016_paper.pdf) ,CVPR, 2016 [Neural Style Transfer]
+* [Real-Time Single Image and Video Super-Resolution Using an Efficient
+Sub-Pixel Convolutional Neural Network](https://arxiv.org/pdf/1609.05158.pdf), CVPR, 2016
+* [Improved Techniques for Training GAN](https://arxiv.org/pdf/1606.03498.pdf), NIPS, 2016
+* [Wasserstein GAN](https://arxiv.org/abs/1701.07875)
+* [Improved Training of Wasserstein GANs](https://arxiv.org/pdf/1704.00028.pdf), NIPS, 2017
+* [Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks](https://arxiv.org/pdf/1511.06434.pdf), ICLR, 2016
+* [Least Squares Generative Adversarial Networks](https://arxiv.org/pdf/1611.04076.pdf), ICCV, 2017
+
+#### Object Detection/Recognition/Segmentation
+
+* [Scalable Object Detection Using Deep Neural Networks](https://arxiv.org/pdf/1312.2249.pdf), CVPR, 2014
+* [Fast R-CNN](https://www.cv-foundation.org/openaccess/content_iccv_2015/papers/Girshick_Fast_R-CNN_ICCV_2015_paper.pdf) , ICCV, 2015
+* [Faster R-CNN: Towards real-time object detection with region proposal networks](http://papers.nips.cc/paper/5638-faster-r-cnn-towards-real-time-object-detection-with-region-proposal-networks.pdf), NIPS, 2015
+* [Mask R-CNN](https://arxiv.org/pdf/1703.06870.pdf), ICCV, 2017
+* [You only look once: Unified, real-time object detection](https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Redmon_You_Only_Look_CVPR_2016_paper.pdf), CVPR, 2016
+* [Rich feature hierarchies for accurate object detection and semantic segmentation](https://www.cv-foundation.org/openaccess/content_cvpr_2014/papers/Girshick_Rich_Feature_Hierarchies_2014_CVPR_paper.pdf), CVPR, 2014
+* [Segmentation as selective search for object recognition](https://www.koen.me/research/pub/vandesande-iccv2011.pdf), ICCV, 2011
+* [SSD: Single shot multibox detector](https://arxiv.org/pdf/1512.02325.pdf), ECCV, 2016
+* [Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps](https://arxiv.org/pdf/1312.6034.pdf), CVPR, 2013
+* [DenseCap: Fully Convolutional Localization Networks for Dense Captioning](https://arxiv.org/pdf/1511.07571.pdf), CVPR, 2016
 
 
 ## Books
