@@ -65,7 +65,6 @@
         where g is the mapping function which maps columns of smaller network weight matrix to columns of large one.<img src="images/net2net_g.png">, where n in the number of columns in smaller network's weight matrix. The weighting is done is next layer parameters to preserve function of the smaller network in large network.For conv layers , the above math would work per channel instead of per unit.
         <li> Net2DeeperNet  :- Addition of layers to the network to make the network deep. So the layer h<sup>i</sup> = f(h<sup>(i-1)</sup>*W<sup>i</sup>) is replaced with two layers h<sup>i</sup> = f(U<sup>i</sup>*f(h<sup>(i-1)</sup>*W<sup>i</sup>)) where f is a non-linearity. U is an identity matrix. All activations can't be used for function preserving transformation. Relu and maxout can be used , but sigmoid, tanh cannot be used since the tranformation doesnot preserve the outputs. For batch normalisation layer, some changes are required in U to undo the changes of normalisation.</ol>
         The experiments revealed that training expanded nets are cheaper to train than training the nets for starting. Another major observation was that there was no loss of accuracy when comparing expanded nets and network trained from start.
-
     </details>
 
 #### Reinforcement Learning
@@ -113,7 +112,53 @@
             <img src = 'images/residual.png'>
     </details>
 
+### Object Detection/Classification
 
+* [Rich feature hierarchies for accurate object detection and semantic segmentation](https://www.cv-foundation.org/openaccess/content_cvpr_2014/papers/Girshick_Rich_Feature_Hierarchies_2014_CVPR_paper.pdf), CVPR, 2014
+    <details>
+        The paper was one of the earliest works to demonstrate power of CNN's for object detection tasks. The main idea was to use a CNN to extract features from images which would then be used for classification and detection instead of traditional features like SIFT, HOG etc. and their derivatives.<br>
+        <img src = 'images/rcnn.png'>
+        The basic components of the detection framework are :-
+        <ul>
+        <li> Region proposals :- Selective Search algorithm.
+        <li> CNN architecture :- AlexNet.
+        <li> Classifier :- SVM
+        </ul>
+        The training process has three stages :-
+        <ol>
+        <li> Firstly the CNN is trained over ImageNet dataset.
+        <li> The CNN is fine tuned over pascal voc.
+        <li> The individual SVM classifiers are trained.
+        </ol>
+        A bounding box regressor is implemented to improve the bounding box localisation errors. 
+    </details>
+* [Fast R-CNN](https://www.cv-foundation.org/openaccess/content_iccv_2015/papers/Girshick_Fast_R-CNN_ICCV_2015_paper.pdf) , ICCV, 2015
+    <details>
+        Fast RCNN is an extension of RCNN for object detection.They propose several improvements to RCNN framework:-
+        <ol>
+        <li> Higher mAP than RCNN
+        <li> The CNN feature extraction network and the classifier networks from RCNN have been merged into one network, and therefore the training process becomes single stage using a multi task loss.
+        <li> Faster running time as compared to RCNN.
+        </ol>
+       The fast rcnn framework overcomes the computational wastage of multiple cnn forward passes for each object proposal in rcnn. A single pass is made for each image and for each of the object proposal generated from selective search, corresponding part from feature map is selected and given to ROI pooling layer which then outputs a fixed size vectior irrespective of the size of input. The framework uses networks which are pre-trained on imagenet, and the last pooling layer of the pretrained network is replaced with a ROI pooling layer.<br><img src='images/fast-rcnn.png'><br>
+       The last fully connected layer is replaced by two layers one for object classification and one for bounding box regression. The loss of the network is defined as the combination of these two layers. This network is trained on a dataset to fine tune its weights. </details>
+* [Faster R-CNN: Towards real-time object detection with region proposal networks](http://papers.nips.cc/paper/5638-faster-r-cnn-towards-real-time-object-detection-with-region-proposal-networks.pdf), NIPS, 2015
+    <details>
+        This paper proposes an improvement to Fast RCNN by introducing a network to propose object proposal. In Fast RCNN, while predicting the objects in the image, most of the time is taken by Selctive Search to propose object proposals. Faster RCNN does away with the requirement of an external object proposal method and introduces a RPN(region proposal network) to give candidate boxes for object localisation. <br>
+        <img src='images/faster-rcnn1.png'><br>
+        The RPN takes the 3 x 3 spatial window of convolution feature map as input, and produces a feature vector of 512 length(for VGG, varies for different architectures). This feature vector is fed to two fully connected layers for bounding box regression and classifcation(whether the proposal contains an object or not). For each spatial window location, a set of k object proposals is produced according to anchor boxes(denoting size and aspect ratio of bounding box).The RPN is trained using a multitask loss giving equal weight to classifcation(log loss) and regression(smooth L1) loss.<br><img src='images/faster-rcnn2.png'><br>
+        This network can be trained in various ways:-
+        <ul>
+        <li> Alternating Training :- Training RPN first and then Fast RCNN part in a loop.
+        <li> Approximate Joint Training :- Training whole network at once combining the gradient of RPN and Fast RCNN for shared convolutional layer. 
+        <li> 4-step alternating training:- The network is trained in four parts :-
+        <ol>
+        <li> Train RPN.
+        <li> Train Fast RCNN by using proposals from RPN trained in the first step.
+        <li> Fix shared conv layers between Fast RCNN and RPN and fine tune the layers specific to RPN.
+        <li> Fine Fast RCNN layers keeping shared conv layers constant.
+        </ul>
+    </details>
 #### General
 
 * [Domingos, Pedro M. “A Few Useful Things to Know about Machine Learning.”](https://homes.cs.washington.edu/~pedrod/papers/cacm12.pdf) Communications of The ACM, 2012
@@ -186,11 +231,8 @@ Sub-Pixel Convolutional Neural Network](https://arxiv.org/pdf/1609.05158.pdf), C
 #### Object Detection/Recognition/Segmentation
 
 * [Scalable Object Detection Using Deep Neural Networks](https://arxiv.org/pdf/1312.2249.pdf), CVPR, 2014
-* [Fast R-CNN](https://www.cv-foundation.org/openaccess/content_iccv_2015/papers/Girshick_Fast_R-CNN_ICCV_2015_paper.pdf) , ICCV, 2015
-* [Faster R-CNN: Towards real-time object detection with region proposal networks](http://papers.nips.cc/paper/5638-faster-r-cnn-towards-real-time-object-detection-with-region-proposal-networks.pdf), NIPS, 2015
 * [Mask R-CNN](https://arxiv.org/pdf/1703.06870.pdf), ICCV, 2017
 * [You only look once: Unified, real-time object detection](https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Redmon_You_Only_Look_CVPR_2016_paper.pdf), CVPR, 2016
-* [Rich feature hierarchies for accurate object detection and semantic segmentation](https://www.cv-foundation.org/openaccess/content_cvpr_2014/papers/Girshick_Rich_Feature_Hierarchies_2014_CVPR_paper.pdf), CVPR, 2014
 * [Segmentation as selective search for object recognition](https://www.koen.me/research/pub/vandesande-iccv2011.pdf), ICCV, 2011
 * [SSD: Single shot multibox detector](https://arxiv.org/pdf/1512.02325.pdf), ECCV, 2016
 * [Deep Inside Convolutional Networks: Visualising Image Classification Models and Saliency Maps](https://arxiv.org/pdf/1312.6034.pdf), CVPR, 2013
